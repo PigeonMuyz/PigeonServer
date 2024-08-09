@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: Pigeon-Registry
+server:
+  port: 65511
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    service-url:
+      defaultZone: http://localhost:${server.port}/eureka/

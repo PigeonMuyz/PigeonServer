@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: Pigeon-Gateway
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: Pigeon-API
+            uri: lb://Pigeon-API
+            predicates:
+              - Path=/api/**
+          - id: Pigeon-AI
+            uri: lb://Pigeon-AI
+            predicates:
+              - Path=/ai/**
+          - id: Pigeon-Registry
+            uri: lb://Pigeon-Registry
+            predicates:
+              - Path=/eureka/**
+          - id: Pigeon-WXBot
+            uri: lb://Pigeon-WXBot
+            predicates:
+              - Path=/wechat
+#          - id: PigeonSource-Fronted
+#            uri: lb://PigeonSource-Fronted
+#            predicates:
+#              - Path=/**
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:65511/eureka/
+
+server:
+  port: 65510

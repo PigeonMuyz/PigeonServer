@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: Pigeon-WXBot
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://pigeon-server-ubuntu:3306/pigeonsource
+    username: root
+    password: Htc0319@2004
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:65511/eureka
+server:
+  port: 65505
+user:
+  api-config-id: 1

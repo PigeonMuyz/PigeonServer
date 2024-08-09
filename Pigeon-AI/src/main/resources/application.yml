@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: Pigeon-AI
+server:
+  port: 65512
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:65511/eureka

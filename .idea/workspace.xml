@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b69687a8-b6b2-47a8-9cc8-dbc571099b94" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pigeon-AI/src/main/java/io/github/pigeonmuyz/pigeonai/controller/AIController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pigeon-API/src/main/java/io/github/pigeonmuyz/pigeonapi/config/JXAPIConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pigeon-API/src/main/java/io/github/pigeonmuyz/pigeonapi/controller/JxapiController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/config/DataConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/config/OpenFeignConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/config/WebSocketConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/handler/JX3APIHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/handler/WeChatHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/helper/WeChatHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/tools/HttpTool.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/maven/archetype.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/archetype-resources/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/archetype-resources/src/main/java/App.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/archetype-resources/src/test/java/AppTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2jcoVXXCJiEGUbKxQ1krMlb6Q0i" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Pigeon-AI [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Pigeon-AI [org.apache.maven.plugins:maven-clean-plugin:3.3.2:clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Pigeon-API [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Pigeon-API [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Pigeon-Gateway [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Pigeon-Registry [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Pigeon-WXBOT [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Pigeon-WXBot [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.PigeonServer [org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.PigeonAiApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.PigeonApiApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.PigeonGatewayApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.PigeonRegistryApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.PigeonWxBotApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.PigeonWxbotApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17 (2)&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/myydd/IdeaProjects/JX3BOT-WXSocket&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.PigeonWxBotApplication">
+    <configuration name="PigeonAiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="Pigeon-AI" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="io.github.pigeonmuyz.pigeonai.PigeonAiApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PigeonApiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="Pigeon-API" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="io.github.pigeonmuyz.pigeonapi.PigeonApiApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PigeonGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="Pigeon-Gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="io.github.pigeonmuyz.pigeongateway.PigeonGatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PigeonRegistryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="Pigeon-Registry" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="io.github.pigeonmuyz.pigeonregistry.PigeonRegistryApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PigeonWxBotApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="Pigeon-WXBot" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="io.github.pigeonmuyz.pigeonwxbot.PigeonWxBotApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Spring Boot.PigeonWxBotApplication" />
+      <item itemvalue="Spring Boot.PigeonAiApplication" />
+      <item itemvalue="Spring Boot.PigeonGatewayApplication" />
+      <item itemvalue="Spring Boot.PigeonApiApplication" />
+      <item itemvalue="Spring Boot.PigeonRegistryApplication" />
+    </list>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.15989.150" />
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-IU-241.15989.150" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b69687a8-b6b2-47a8-9cc8-dbc571099b94" name="Changes" comment="" />
+      <created>1721695751123</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1721695751123</updated>
+      <workItem from="1721695752236" duration="2617000" />
+      <workItem from="1721698390417" duration="27000" />
+      <workItem from="1721698433530" duration="7986000" />
+      <workItem from="1721712872134" duration="15686000" />
+      <workItem from="1721784077400" duration="4355000" />
+      <workItem from="1721974502487" duration="1423000" />
+      <workItem from="1721976755581" duration="572000" />
+      <workItem from="1722404815773" duration="4534000" />
+      <workItem from="1722417960540" duration="980000" />
+      <workItem from="1722437320510" duration="2943000" />
+      <workItem from="1722647443803" duration="4452000" />
+      <workItem from="1722666620358" duration="656000" />
+      <workItem from="1722930928647" duration="1735000" />
+      <workItem from="1723082616224" duration="2941000" />
+      <workItem from="1723165647015" duration="8697000" />
+      <workItem from="1723182508696" duration="1232000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
