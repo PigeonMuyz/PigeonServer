@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b69687a8-b6b2-47a8-9cc8-dbc571099b94" name="Changes" comment="首次提交">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pigeon-WXBot/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Pigeon-WXBot/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/handler/WeChatHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/handler/WeChatHandler.java" afterDir="false" />
+    <list default="true" id="b69687a8-b6b2-47a8-9cc8-dbc571099b94" name="Changes" comment="功能性修改">
+      <change afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +22,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GithubDefaultAccount">
@@ -32,7 +36,9 @@
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2jcoVXXCJiEGUbKxQ1krMlb6Q0i" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -85,6 +91,11 @@
 }]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\myydd\IdeaProjects\PigeonServer" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="configurationTypes">
@@ -176,7 +187,7 @@
       <workItem from="1723082616224" duration="2941000" />
       <workItem from="1723165647015" duration="8697000" />
       <workItem from="1723182508696" duration="6778000" />
-      <workItem from="1723196885931" duration="241000" />
+      <workItem from="1723196885931" duration="612000" />
     </task>
     <task id="LOCAL-00001" summary="首次提交">
       <option name="closed" value="true" />
@@ -186,14 +197,34 @@
       <option name="project" value="LOCAL" />
       <updated>1723184048420</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="功能性修改">
+      <option name="closed" value="true" />
+      <created>1723197183993</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1723197183993</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="首次提交" />
-    <option name="LAST_COMMIT_MESSAGE" value="首次提交" />
+    <MESSAGE value="功能性修改" />
+    <option name="LAST_COMMIT_MESSAGE" value="功能性修改" />
   </component>
 </project>
