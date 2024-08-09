@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.pigeonmuyz.pigeonwxbot.helper.WeChatHelper;
+import io.github.pigeonmuyz.pigeonwxbot.tools.HttpTool;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-
+import org.apache.commons.lang3.StringEscapeUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,9 +73,11 @@ public class WeChatHandler extends TextWebSocketHandler {
                     String[] commands;
                     if (payload.contains("的")) {
                         commands = rootNode.get("alt_message").asText().split("的");
-                        String tempCommand = commands[1];
-                        commands[1] = commands[0];
-                        commands[0] = tempCommand;
+                        if (commands.length > 1){
+                            String tempCommand = commands[1];
+                            commands[1] = commands[0];
+                            commands[0] = tempCommand;
+                        }
                     } else {
                         commands = rootNode.get("alt_message").asText().split(" ");
                     }
@@ -82,7 +85,7 @@ public class WeChatHandler extends TextWebSocketHandler {
                         //#region 日常
                         case "日常":
                             requestBody = ofc.getJson("日常","","0").getBody();
-                            if (requestBody.get("code").equals(200)){
+                            if (requestBody.get("code").equals(200) && requestBody.get("Data") != null){
                                 tempMap = (Map<String, Object>) requestBody.get("data");
                                 temp =  "【PVE日常】\\n"
                                         + "秘境日常：" + tempMap.get("war").toString() + "\\n"
@@ -116,9 +119,9 @@ public class WeChatHandler extends TextWebSocketHandler {
                             }
                             break;
                         //#endregion
-                        //#region 装备
-                        case "装备":
-                            requestBody = ofc.getJson("装备",String.format("{\"server\": \"%s\", \"name\": \"%s\"}", "飞龙在天", commands[1]),"1").getBody();
+                        //#region 公告
+                        case "公告":
+                            requestBody = ofc.getJson("维护公告","","1").getBody();
                             if (requestBody.get("code").equals(200)){
                                 tempMap = (Map<String, Object>) requestBody.get("data");
                                 WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",wechatID,isGroup, "image", tempMap.get("url").toString());
@@ -127,10 +130,84 @@ public class WeChatHandler extends TextWebSocketHandler {
                             }
                             break;
                         //#endregion
-                        case "云从社":
-                            requestBody = ofc.getJson("云从社","","0").getBody();
-                            LOGGER.info(requestBody.toString());
+                        //#region 装备
+                        case "装备":
+                            if (commands.length <= 1) {
+                                return;
+                            }
+                            requestBody = ofc.getJson("装备",String.format("{\"server\": \"%s\", \"name\": \"%s\"}", "飞龙在天", commands[1]),"1").getBody();
+                            LOGGER.info(requestBody.get("code").toString());
+                            if (requestBody.get("code").equals(200)){
+                                tempMap = (Map<String, Object>) requestBody.get("data");
+                                WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",wechatID,isGroup, "image", tempMap.get("url").toString());
+                            }else{
+                                WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",wechatID,isGroup, "text", "碰到错误了，请反馈给渡渡鸟吧");
+                            }
                             break;
+                        //#endregion
+                        //#region 烟花
+                        case "烟花":
+                            if (commands.length <= 1) {
+                                return;
+                            }
+                            requestBody = ofc.getJson("烟花",String.format("{\"server\": \"%s\", \"name\": \"%s\"}", "飞龙在天", commands[1]),"1").getBody();
+                            if (requestBody.get("code").equals(200)){
+                                tempMap = (Map<String, Object>) requestBody.get("data");
+                                WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",wechatID,isGroup, "image", tempMap.get("url").toString());
+                            }else{
+                                WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",wechatID,isGroup, "text", "碰到错误了，请反馈给渡渡鸟吧");
+                            }
+                            break;
+                        //#endregion
+                        //#region 奇遇
+                        case "奇遇":
+                            if (commands.length <= 1) {
+                                return;
+                            }
+                            requestBody = ofc.getJson("奇遇",String.format("{\"server\": \"%s\", \"name\": \"%s\"}", "飞龙在天", commands[1]),"1").getBody();
+                            if (requestBody.get("code").equals(200)){
+                                tempMap = (Map<String, Object>) requestBody.get("data");
+                                WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",wechatID,isGroup, "image", tempMap.get("url").toString());
+                            }else{
+                                WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",wechatID,isGroup, "text", "碰到错误了，请反馈给渡渡鸟吧");
+                            }
+                            break;
+                        //#endregion
+                        //#region 云从社
+                        case "云从社":
+                            requestBody = ofc.getJson("云从社","{\"season\": 3}","0").getBody();
+                            if (requestBody.get("code").equals(200)){
+                                List<Map<String,Object>> tempList = (List<Map<String,Object>>)requestBody.get("data");
+                                tempMap = tempList.get(0);
+                                temp = "【正在进行中的事件】\\n" +
+                                        "事件："+tempMap.get("desc").toString()+"\\n" +
+                                        "地点："+tempMap.get("map_name").toString()+" • "+tempMap.get("site").toString()+"\\n" +
+                                        "事件："+tempMap.get("time").toString()+"\\n";
+                                tempMap = tempList.get(1);
+                                temp = temp +
+                                        "【将要开始的事件】\\n" +
+                                        "事件："+tempMap.get("desc").toString()+"\\n" +
+                                        "地点："+tempMap.get("map_name").toString()+" • "+tempMap.get("site").toString()+"\\n" +
+                                        "事件："+tempMap.get("time").toString();
+                                WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",wechatID,isGroup, "text", temp);
+                            }else{
+                                WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",wechatID,isGroup, "text", "碰到错误了，请反馈给渡渡鸟吧");
+                            }
+                            break;
+                        //#endregion
+                        //#region 鸽子牌AI
+                        case "不懂就问":
+                            if (commands.length <= 1) {
+                                return;
+                            }
+                            rootNode = mapper.readTree(HttpTool.getData("http://localhost:65510/ai/pigeon?question="+commands[1]));
+                            if (rootNode.get("code").asInt() == 200){
+                                WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",wechatID,isGroup, "text", StringEscapeUtils.escapeJava(rootNode.get("data").asText()));
+                            }else{
+                                WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",wechatID,isGroup, "text", "你丑到我了，我不想理你");
+                            }
+                            break;
+                        //#endregion
                         case "吃什么":
                             break;
                         case "复读":
@@ -163,9 +240,6 @@ public class WeChatHandler extends TextWebSocketHandler {
                     break;
             }
             //#endregion
-            if (rootNode.get("type").asText().equalsIgnoreCase("message")){
-
-            }
         }
 
 
