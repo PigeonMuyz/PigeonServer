@@ -8,7 +8,6 @@ import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -148,4 +147,73 @@ public class JxapiController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/activate")
+    public ResponseEntity<Map<String, Object>> activate(String masterId, String userId, @RequestParam(required = false) String server, Boolean isGroup, String type){
+        Map<String, Object> response = new HashMap<>();
+        response.put("time", System.currentTimeMillis());
+        String tempSQL = "SELECT * FROM channel_bind WHERE userId = ?";
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(tempSQL, userId);
+        int typeNum = 0;
+        switch (type){
+            case "微信群":
+                typeNum = 0;
+                break;
+            case "微信用户":
+                typeNum = 1;
+                break;
+            case "QQ群":
+                typeNum = 2;
+                break;
+            case "QQ用户":
+                typeNum = 3;
+                break;
+            case "官方群":
+                typeNum = 4;
+                break;
+            default:
+                typeNum = -1;
+                break;
+        }
+        if (typeNum < 0) {
+            response.put("code", "002");
+            response.put("message", "该聊天不被支持使用");
+            return ResponseEntity.ok(response);
+        }
+        // 激活判断
+        if (rows.isEmpty()){
+            int a = jdbcTemplate.update("INSERT INTO channel_bind(userid,type,isGroup,masterID,settings) VALUES(?,?,?,?,?)", userId, typeNum, isGroup, masterId,"{\"sender\": []}");
+            response.put("code", "200");
+            response.put("message", "success");
+            return ResponseEntity.ok(response);
+        }else {
+            // 更换绑定服务器
+            if (!server.equalsIgnoreCase("")){
+                if (rows.get(0).get("masterID").toString().equalsIgnoreCase(masterId)){
+                    String serverAlias = serverAliases.get(server);
+                    if (!serverAlias.isEmpty()){
+                        int a = jdbcTemplate.update("update channel_bind set server = ? where userId = ? and masterID = ?", serverAlias, userId, masterId);
+                        response.put("code", "200");
+                        response.put("message", "success");
+                        return ResponseEntity.ok(response);
+                    }else{
+                        response.put("code", "200");
+                        response.put("message", "找不到指定服务器");
+                        return ResponseEntity.ok(response);
+                    }
+                }else {
+                    response.put("code", "200");
+                    response.put("message", "你又不是管理，你想干什么");
+                    return ResponseEntity.ok(response);
+                }
+            }else {
+                response.put("code", "200");
+                response.put("message", "啊？");
+                return ResponseEntity.ok(response);
+            }
+        }
+    }
+
+    public ResponseEntity<Map<String, Object>> allBindSettings(){
+        return null;
+    }
 }
