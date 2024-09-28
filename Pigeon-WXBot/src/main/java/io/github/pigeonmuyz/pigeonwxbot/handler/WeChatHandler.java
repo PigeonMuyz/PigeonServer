@@ -76,7 +76,7 @@ public class WeChatHandler extends TextWebSocketHandler {
                     case "message":
                         //#region 处理消息指令
                         String[] commands;
-                        if (payload.contains("的")) {
+                        if (payload.contains("的") && !payload.contains(" ")) {
                             commands = rootNode.get("alt_message").asText().split("的");
                             if (commands.length > 1){
                                 String tempCommand = commands[1];
@@ -219,7 +219,24 @@ public class WeChatHandler extends TextWebSocketHandler {
                                 WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",userId,isGroup,"text","ご主人様，恭喜您领养成功");
                                 break;
                             //#endregion
-                            //#region
+                            //#region 照骗
+                            case "名片":
+                            case "照骗":
+                            case "qq秀":
+                            case "QQ秀":
+                                if (commands.length <= 1) {
+                                    return;
+                                }
+                                requestBody = ofc.getJson("角色名片",String.format("{\"server\": \"%s\", \"name\": \"%s\"}", "飞龙在天", commands[1]),"0").getBody();
+                                if (Integer.parseInt(requestBody.get("code").toString()) == 200 && requestBody.get("data") != null){
+                                    tempMap = (Map<String, Object>) requestBody.get("data");
+                                    WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",userId,isGroup, "image", tempMap.get("static").toString());
+                                }else{
+                                    WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",userId,isGroup, "text", "碰到错误了，请反馈给渡渡鸟吧");
+                                }
+                                break;
+                            //#endregion
+                            //#region 绑定
                             case "绑定":
                                 if (commands.length <= 1){
                                     return;
