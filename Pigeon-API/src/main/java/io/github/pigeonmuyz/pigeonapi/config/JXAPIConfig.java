@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
 @Component
+@EnableScheduling
 public class JXAPIConfig {
     private static final Logger logger = LoggerFactory.getLogger(JXAPIConfig.class);
     @Value("${user.api-config-id}")
@@ -24,6 +26,7 @@ public class JXAPIConfig {
     public static String botname= "";
     public static String datauri= "";
     public static String imageuri= "";
+    public static String zliburi= "";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -42,6 +45,7 @@ public class JXAPIConfig {
             botname = result.get("botname").toString();
             datauri = result.get("datauri").toString();
             imageuri = result.get("imageuri").toString();
+            zliburi = result.get("zliburi").toString();
             logger.info("TokenV1："+tokenv1);
             logger.info("TokenV2："+tokenv2);
             logger.info("Ticket："+ticket);
@@ -49,6 +53,7 @@ public class JXAPIConfig {
             logger.info("BotName："+botname);
             logger.info("DataUri："+datauri);
             logger.info("ImageUri："+imageuri);
+            logger.info("Zlibrary URI："+zliburi);
         }catch (Exception e){
             logger.error("JXAPIConfig Init Failed!!!");
             logger.error(e.getMessage());
