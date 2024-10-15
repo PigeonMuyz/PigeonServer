@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.pigeonmuyz.pigeonwxbot.config.DataConfig;
+import io.github.pigeonmuyz.pigeonwxbot.entity.BlackList;
 import io.github.pigeonmuyz.pigeonwxbot.entity.ChannelBind;
 import io.github.pigeonmuyz.pigeonwxbot.entity.ZLibData;
 import io.github.pigeonmuyz.pigeonwxbot.helper.WeChatHelper;
@@ -51,7 +52,7 @@ public class WeChatHandler extends TextWebSocketHandler {
         // WeChat ID
         String userId;
         // WeChat Master ID；
-        String masterId = "";
+        String masterId;
         String server = "飞龙在天";
         // 用户真实地址
         LOGGER.debug(String.valueOf(session.getRemoteAddress().getHostString()));
@@ -70,6 +71,7 @@ public class WeChatHandler extends TextWebSocketHandler {
                 userId = rootNode.get("user_id").asText();
                 masterId = rootNode.get("user_id").asText();
             } else {
+                masterId = "";
                 userId = "";
             }
 
@@ -83,7 +85,12 @@ public class WeChatHandler extends TextWebSocketHandler {
             if (cb.getServer() != null) {
                 server = cb.getServer();
             }
-
+            BlackList bl = DataConfig.blackList.stream()
+                    .filter(item -> item.getUser_id().equals(masterId))
+                    .findFirst().orElseGet(BlackList::new);
+            if (bl.getUser_id() != null){
+                return;
+            }
             //#endregion
             //#region 识别消息类别
             // 临时键值对
@@ -339,6 +346,9 @@ public class WeChatHandler extends TextWebSocketHandler {
                             case "复读":
                                 WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",userId,isGroup, "text", commands[1]);
                                 break;
+                            case "wxid":
+                                WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",userId,isGroup, "text", String.format("他的WXID：%s",commands[1].replaceAll("@","")));
+                                break;
                             default:
                                 break;
                         }
@@ -372,6 +382,7 @@ public class WeChatHandler extends TextWebSocketHandler {
             }
             //#endregion
         } else {
+            masterId = "";
             userId = "";
         }
     }
