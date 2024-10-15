@@ -1,11 +1,13 @@
 package io.github.pigeonmuyz.pigeonwxbot.config;
 
+import io.github.pigeonmuyz.pigeonwxbot.entity.ZLibData;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -21,5 +23,7 @@ public interface OpenFeignConfig {
                                                 @RequestParam(value = "server", required = false) String server,
                                                 @RequestParam(value = "isGroup") Boolean isGroup,
                                                 @RequestParam("type") String type);
+    @GetMapping("/api/getbooks")
+    List<ZLibData> getBooks(@RequestParam("text") String text);
 }
 
