@@ -3,6 +3,9 @@ package io.github.pigeonmuyz.pigeonwxbot.handler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.pigeonmuyz.pigeonwxbot.config.DataConfig;
+import io.github.pigeonmuyz.pigeonwxbot.entity.ChannelBind;
+import io.github.pigeonmuyz.pigeonwxbot.entity.ZLibData;
 import io.github.pigeonmuyz.pigeonwxbot.helper.WeChatHelper;
 import io.github.pigeonmuyz.pigeonwxbot.tools.HttpTool;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +21,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class WeChatHandler extends TextWebSocketHandler {
@@ -45,26 +49,41 @@ public class WeChatHandler extends TextWebSocketHandler {
         // WeChat类型
         Boolean isGroup = true;
         // WeChat ID
-        String userId = "";
+        String userId;
         // WeChat Master ID；
         String masterId = "";
+        String server = "飞龙在天";
         // 用户真实地址
-//        LOGGER.info(String.valueOf(session.getRemoteAddress().getHostString()));
-//        LOGGER.info("收到消息："+payload);
+        LOGGER.debug(String.valueOf(session.getRemoteAddress().getHostString()));
         // 判断是否为JSON
         if (isValidJson(payload)){
             // 初始化rootNode对象
             rootNode = mapper.readTree(payload);
             //#region 识别用户
-            if (rootNode.get("detail_type").asText().equals("group")){
+            ChannelBind cb;
+            if (rootNode.get("detail_type").asText().equals("group")) {
                 isGroup = true;
                 userId = rootNode.get("group_id").asText();
                 masterId = rootNode.get("user_id").asText();
-            }else if (rootNode.get("detail_type").asText().equals("private")){
+            } else if (rootNode.get("detail_type").asText().equals("private")) {
                 isGroup = false;
                 userId = rootNode.get("user_id").asText();
                 masterId = rootNode.get("user_id").asText();
+            } else {
+                userId = "";
             }
+
+            Optional<ChannelBind> optionalCb = DataConfig.channelBinds.stream()
+                    .filter(item -> item.getUserId().equals(userId))
+                    .findFirst();
+
+            // 处理找不到匹配元素，初始化一个默认的ChannelBind对象
+            cb = optionalCb.orElseGet(ChannelBind::new);
+
+            if (cb.getServer() != null) {
+                server = cb.getServer();
+            }
+
             //#endregion
             //#region 识别消息类别
             // 临时键值对
@@ -76,7 +95,7 @@ public class WeChatHandler extends TextWebSocketHandler {
                     case "message":
                         //#region 处理消息指令
                         String[] commands;
-                        if (payload.contains("的") && !payload.contains(" ")) {
+                        if (payload.contains("的") && !rootNode.get("alt_message").asText().contains(" ")) {
                             commands = rootNode.get("alt_message").asText().split("的");
                             if (commands.length > 1){
                                 String tempCommand = commands[1];
@@ -89,6 +108,9 @@ public class WeChatHandler extends TextWebSocketHandler {
                         switch (commands[0]){
                             //#region 日常
                             case "日常":
+//                                if (rootNode.get("user_id").asText().equalsIgnoreCase("wxid_8806918068922")) {
+//                                    WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",userId,isGroup, "text", "咦！是仙女姐姐浅浅的命令喔！");
+//                                }
                                 requestBody = ofc.getJson("日常","","0").getBody();
                                 if (Integer.parseInt(requestBody.get("code").toString()) == 200 && requestBody.get("data") != null){
                                     tempMap = (Map<String, Object>) requestBody.get("data");
@@ -140,7 +162,10 @@ public class WeChatHandler extends TextWebSocketHandler {
                                 if (commands.length <= 1) {
                                     return;
                                 }
-                                requestBody = ofc.getJson("装备",String.format("{\"server\": \"%s\", \"name\": \"%s\"}", "飞龙在天", commands[1]),"1").getBody();
+                                requestBody = ofc.getJson("装备",String.format("{\"server\": \"%s\", \"name\": \"%s\"}", server, commands[1]),"1").getBody();
+                                if (commands.length == 3) {
+                                    requestBody = ofc.getJson("装备",String.format("{\"server\": \"%s\", \"name\": \"%s\"}", commands[1], commands[2]),"1").getBody();
+                                }
                                 LOGGER.info(requestBody.get("code").toString());
                                 if (Integer.parseInt(requestBody.get("code").toString()) == 200 && requestBody.get("data") != null){
                                     tempMap = (Map<String, Object>) requestBody.get("data");
@@ -155,7 +180,10 @@ public class WeChatHandler extends TextWebSocketHandler {
                                 if (commands.length <= 1) {
                                     return;
                                 }
-                                requestBody = ofc.getJson("烟花",String.format("{\"server\": \"%s\", \"name\": \"%s\"}", "飞龙在天", commands[1]),"1").getBody();
+                                requestBody = ofc.getJson("烟花",String.format("{\"server\": \"%s\", \"name\": \"%s\"}", server, commands[1]),"1").getBody();
+                                if (commands.length == 3) {
+                                    requestBody = ofc.getJson("烟花",String.format("{\"server\": \"%s\", \"name\": \"%s\"}", commands[1], commands[2]),"1").getBody();
+                                }
                                 if (Integer.parseInt(requestBody.get("code").toString()) == 200 && requestBody.get("data") != null){
                                     tempMap = (Map<String, Object>) requestBody.get("data");
                                     WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",userId,isGroup, "image", tempMap.get("url").toString());
@@ -169,7 +197,10 @@ public class WeChatHandler extends TextWebSocketHandler {
                                 if (commands.length <= 1) {
                                     return;
                                 }
-                                requestBody = ofc.getJson("奇遇",String.format("{\"server\": \"%s\", \"name\": \"%s\"}", "飞龙在天", commands[1]),"1").getBody();
+                                requestBody = ofc.getJson("奇遇",String.format("{\"server\": \"%s\", \"name\": \"%s\"}", server, commands[1]),"1").getBody();
+                                if (commands.length == 3) {
+                                    requestBody = ofc.getJson("奇遇",String.format("{\"server\": \"%s\", \"name\": \"%s\"}", commands[1], commands[2]),"1").getBody();
+                                }
                                 if (Integer.parseInt(requestBody.get("code").toString()) == 200 && requestBody.get("data") != null){
                                     tempMap = (Map<String, Object>) requestBody.get("data");
                                     WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",userId,isGroup, "image", tempMap.get("url").toString());
@@ -180,7 +211,7 @@ public class WeChatHandler extends TextWebSocketHandler {
                             //#endregion
                             //#region 云从社
                             case "云从社":
-                                requestBody = ofc.getJson("行侠","{\"name\": 云从社}","0").getBody();
+                                requestBody = ofc.getJson("行侠","{\"name\": \"云从社\"}","0").getBody();
                                 if (Integer.parseInt(requestBody.get("code").toString()) == 200 && requestBody.get("data") != null){
                                     List<Map<String,Object>> tempList = (List<Map<String,Object>>)requestBody.get("data");
                                     tempMap = tempList.get(0);
@@ -215,8 +246,14 @@ public class WeChatHandler extends TextWebSocketHandler {
                             //#endregion
                             //#region 激活
                             case "出来吧皮卡丘！":
-                                ofc.activate(masterId,userId,"",isGroup, isGroup? "微信群":"微信用户");
-                                WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",userId,isGroup,"text","ご主人様，恭喜您领养成功");
+                                requestBody = ofc.activate(masterId,userId,"",isGroup, isGroup? "微信群":"微信用户").getBody();
+                                if (Integer.parseInt(requestBody.get("code").toString()) == 200 && requestBody.get("message") != null){
+                                    if (requestBody.get("message").toString().equalsIgnoreCase("success")){
+                                        WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",userId,isGroup,"text","Master账户绑定成功辣！");
+                                    } else {
+                                        WeChatHelper.sendMessage(   "http://"+session.getRemoteAddress().getHostString()+":8000/",userId,isGroup, "text", requestBody.get("message").toString());
+                                    }
+                                }
                                 break;
                             //#endregion
                             //#region 照骗
@@ -227,7 +264,10 @@ public class WeChatHandler extends TextWebSocketHandler {
                                 if (commands.length <= 1) {
                                     return;
                                 }
-                                requestBody = ofc.getJson("角色名片",String.format("{\"server\": \"%s\", \"name\": \"%s\"}", "飞龙在天", commands[1]),"0").getBody();
+                                requestBody = ofc.getJson("角色名片",String.format("{\"server\": \"%s\", \"name\": \"%s\"}", server, commands[1]),"0").getBody();
+                                if (commands.length == 3) {
+                                    requestBody = ofc.getJson("角色名片",String.format("{\"server\": \"%s\", \"name\": \"%s\"}", commands[1], commands[2]),"0").getBody();
+                                }
                                 if (Integer.parseInt(requestBody.get("code").toString()) == 200 && requestBody.get("data") != null){
                                     tempMap = (Map<String, Object>) requestBody.get("data");
                                     WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",userId,isGroup, "image", tempMap.get("static").toString());
@@ -241,7 +281,14 @@ public class WeChatHandler extends TextWebSocketHandler {
                                 if (commands.length <= 1){
                                     return;
                                 }
-                                ofc.activate(masterId,userId,commands[1],isGroup, isGroup? "微信群":"微信用户");
+                                requestBody = ofc.activate(masterId,userId,commands[1],isGroup, isGroup? "微信群":"微信用户").getBody();
+                                if (Integer.parseInt(requestBody.get("code").toString()) == 200 && requestBody.get("message") != null){
+                                    if (requestBody.get("message").toString().equalsIgnoreCase("success")){
+                                        WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",userId,isGroup, "text", "服务器绑定成功辣！");
+                                    } else {
+                                        WeChatHelper.sendMessage(   "http://"+session.getRemoteAddress().getHostString()+":8000/",userId,isGroup, "text", requestBody.get("message").toString());
+                                    }
+                                }
                                 break;
                             //#endregion
                             //#region 百战精耐
@@ -249,7 +296,10 @@ public class WeChatHandler extends TextWebSocketHandler {
                                 if (commands.length <= 1) {
                                     return;
                                 }
-                                requestBody = ofc.getJson("百战精耐",String.format("{\"server\": \"%s\", \"name\": \"%s\"}","飞龙在天", commands[1]),"0").getBody();
+                                requestBody = ofc.getJson("百战精耐",String.format("{\"server\": \"%s\", \"name\": \"%s\"}", server, commands[1]),"0").getBody();
+                                if (commands.length == 3) {
+                                    requestBody = ofc.getJson("百战精耐",String.format("{\"server\": \"%s\", \"name\": \"%s\"}",commands[1], commands[2]),"0").getBody();
+                                }
                                 if (Integer.parseInt(requestBody.get("code").toString()) == 200 && requestBody.get("data") != null){
                                     tempMap = (Map<String, Object>) requestBody.get("data");
                                     temp = tempMap.get("roleName").toString() + "\\n"+
@@ -258,6 +308,29 @@ public class WeChatHandler extends TextWebSocketHandler {
                                     WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",userId,isGroup, "text", temp);
                                 }else{
                                     WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",userId,isGroup, "text", "碰到错误了，请反馈给渡渡鸟吧");
+                                }
+                                break;
+                            //#endregion
+                            //#region Z-Lib
+                            case "搜书":
+                                StringBuilder keywordBuilder = new StringBuilder();
+                                for (int i = 1; i < commands.length; i++) {
+                                    keywordBuilder.append(commands[i]).append(" ");
+                                }
+                                String keyword = keywordBuilder.toString().trim();
+
+                                List<ZLibData> result = ofc.getBooks(keyword);
+                                StringBuilder resultMessage = new StringBuilder("搜书结果来啦！\\n");
+                                if (result.isEmpty()) {
+                                    WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/", userId, isGroup, "text", "没找到相关书籍哦！");
+                                } else {
+                                    for (int i = 0; i < Math.min(5, result.size()); i++) {
+                                        ZLibData book = result.get(i);
+                                        resultMessage.append(book.getText()).append("\\n")
+                                                .append("链接：").append(book.getHref()).append("\\n")
+                                                .append("------------\\n");
+                                    }
+                                    WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/", userId, isGroup, "text", resultMessage.toString());
                                 }
                                 break;
                             //#endregion
@@ -286,21 +359,21 @@ public class WeChatHandler extends TextWebSocketHandler {
                                     LOGGER.info("机器人："+rootNode.get("status").get("bots").get(0).get("self").get("user_id").asText());
                                     LOGGER.info("实际地址："+session.getRemoteAddress().getHostString());
                                     LOGGER.info("------------------------");
-
+                                    DataConfig.botAddress = session.getRemoteAddress().getHostString();
                                 }
                                 break;
                         }
                         break;
                 }
             }catch (Exception e){
+                LOGGER.error(e.getMessage());
                 WeChatHelper.sendMessage("http://"+session.getRemoteAddress().getHostString()+":8000/",userId,isGroup, "text", "出毛病了，快找人来修！");
 
             }
             //#endregion
+        } else {
+            userId = "";
         }
-
-
-//        System.out.println(requestBody.get("data"));;
     }
 
     /**
