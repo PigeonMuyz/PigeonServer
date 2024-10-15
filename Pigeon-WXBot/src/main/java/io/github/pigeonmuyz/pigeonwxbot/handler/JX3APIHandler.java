@@ -16,20 +16,28 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
 
 @ClientEndpoint
 public class JX3APIHandler {
     private final static Logger LOGGER = LoggerFactory.getLogger(JX3APIHandler.class);
     private static String SERVER_URI;
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor(); // 单线程执行重连任务
+
+    private Session session;
+    private int retryCount = 0;
+    private final int maxRetries = 6;
+
     public JX3APIHandler(String SERVER_URI){
         this.SERVER_URI = SERVER_URI;
     }
-    private Session session;
 
     @OnOpen
     public void onOpen(Session session) {
         this.session = session;
+        retryCount = 0;  // 成功连接后重置重连计数
     }
 
     @OnMessage
@@ -76,18 +84,18 @@ public class JX3APIHandler {
 //                            , jn.get("data").get("new_version").asText()
 //                            , jn.get("data").get("package_size").asText()));
 //                    break;
-//                case 2004:
-//                    messages.put(action, String.format(
-//                            "来自 %s吧 的%s\\n" +
-//                                    "标题：%s\\n" +
-//                                    "链接：%s\\n" +
-//                                    "日期：%s\\n"
-//                            , jn.get("data").get("name").asText()
-//                            , jn.get("data").get("subclass").asText()
-//                            , jn.get("data").get("title").asText()
-//                            , jn.get("data").get("url").asText()
-//                            , jn.get("data").get("date").asText()));
-//                    break;
+                case 2004:
+                    messages.put(action, String.format(
+                            "来自 %s吧 的%s\\n" +
+                                    "标题：%s\\n" +
+                                    "链接：%s\\n" +
+                                    "日期：%s\\n"
+                            , jn.get("data").get("name").asText()
+                            , jn.get("data").get("class").asText()
+                            , jn.get("data").get("title").asText()
+                            , jn.get("data").get("url").asText()
+                            , jn.get("data").get("date").asText()));
+                    break;
                 case 2005:
                 case 2006:
                     // 处理其他操作
@@ -120,13 +128,13 @@ public class JX3APIHandler {
     @OnClose
     public void onClose(Session session, CloseReason reason) throws IOException {
         LOGGER.error("连接丢失，正在尝试重连");
-        reconnect();
+        retryConnection();
     }
 
     @OnError
     public void onError(Session session, Throwable throwable) throws IOException {
         LOGGER.error("发生错误，正在尝试重连");
-        reconnect();
+        retryConnection();
     }
 
     public void connectToServer() throws IOException {
@@ -135,36 +143,29 @@ public class JX3APIHandler {
             LOGGER.info("正在连接JX3API");
             container.connectToServer(this, new URI(SERVER_URI));
         } catch (Exception e) {
-            e.printStackTrace();
-            reconnect();
+            LOGGER.error("连接失败，错误: {}", e.getMessage());
+            retryConnection();
         }
     }
 
-    private void reconnect() throws IOException {
-        int maxRetries = 6;  // 最大重试次数
-        int retryCount = 0;
-        long waitTime = 2000;  // 初始等待时间为2秒
-
-        while (retryCount < maxRetries) {
-            try {
-                LOGGER.info("开始尝试重连JX3API，重试次数: {}", retryCount + 1);
-                Thread.sleep(waitTime); // 重连前等待
-                connectToServer();
-                break; // 成功连接后退出循环
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                LOGGER.error("重连失败，错误: {}", e.getMessage());
-                retryCount++;
-                waitTime *= 2;  // 每次重试后等待时间加倍
-            }
-        }
-
-        if (retryCount == maxRetries) {
+    private void retryConnection() throws IOException {
+        if (retryCount < maxRetries) {
+            executorService.submit(() -> {
+                try {
+                    LOGGER.info("开始尝试重连JX3API，重试次数: {}", retryCount + 1);
+                    String url = "https://api.day.app/3LrVUYJfUDvE9Up8Qxt7CD/Pigeon WXBot服务警告/"+"开始尝试重连JX3API，重试次数: "+(retryCount + 1)+"?group=PigeonServer";
+                    HttpTool.getData(url);
+                    Thread.sleep(2000 * (long) Math.pow(2, retryCount));  // 指数递增的等待时间
+                    connectToServer();
+                    retryCount++;
+                } catch (InterruptedException | IOException e) {
+                    LOGGER.error("重连失败，错误: {}", e.getMessage());
+                }
+            });
+        } else {
             String url = "https://api.day.app/3LrVUYJfUDvE9Up8Qxt7CD/Pigeon WXBot服务警告/WSS服务暴毙，赶紧来修?group=PigeonServer";
-            HttpTool.getData(url);
             LOGGER.error("超过最大重试次数，停止重连");
+            HttpTool.getData(url);
         }
     }
-
 }
