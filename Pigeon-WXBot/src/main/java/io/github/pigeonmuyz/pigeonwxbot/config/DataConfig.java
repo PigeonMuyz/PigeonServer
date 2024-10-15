@@ -1,5 +1,6 @@
 package io.github.pigeonmuyz.pigeonwxbot.config;
 
+import io.github.pigeonmuyz.pigeonwxbot.entity.BlackList;
 import io.github.pigeonmuyz.pigeonwxbot.entity.ChannelBind;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -30,6 +31,8 @@ public class DataConfig {
 
     public static List<ChannelBind> channelBinds = new ArrayList<>();
 
+    public static List<BlackList> blackList = new ArrayList<>();
+
     public static String botAddress = "";
 
     @PostConstruct
@@ -54,5 +57,13 @@ public class DataConfig {
     public void updateLocalSettings(){
         String tempSQL = "SELECT * FROM channel_bind";
         channelBinds = jdbcTemplate.query(tempSQL, new BeanPropertyRowMapper<>(ChannelBind.class));
+    }
+
+    @PostConstruct
+    @Async
+    @Scheduled(fixedDelay = 60000) // 60秒更新一次
+    public void updateBlackSettings(){
+        String tempSQL = "SELECT * FROM blacklist";
+        blackList = jdbcTemplate.query(tempSQL, new BeanPropertyRowMapper<>(BlackList.class));
     }
 }
