@@ -4,12 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b69687a8-b6b2-47a8-9cc8-dbc571099b94" name="Changes" comment="协议规定以及README文件补全">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+    <list default="true" id="b69687a8-b6b2-47a8-9cc8-dbc571099b94" name="Changes" comment="增加处理机制">
+      <change afterPath="$PROJECT_DIR$/Pigeon-API/src/main/java/io/github/pigeonmuyz/pigeonapi/Entity/TitleInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pigeon-API/src/main/java/io/github/pigeonmuyz/pigeonapi/Entity/TitleInfoList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pigeon-API/src/main/java/io/github/pigeonmuyz/pigeonapi/Entity/ZLibData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pigeon-API/src/main/java/io/github/pigeonmuyz/pigeonapi/helper/ZLibReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/entity/ChannelBind.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/entity/ZLibData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pigeon-API/src/main/java/io/github/pigeonmuyz/pigeonapi/controller/JxapiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Pigeon-API/src/main/java/io/github/pigeonmuyz/pigeonapi/controller/JxapiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pigeon-API/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Pigeon-API/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pigeon-API/src/main/java/io/github/pigeonmuyz/pigeonapi/config/JXAPIConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Pigeon-API/src/main/java/io/github/pigeonmuyz/pigeonapi/config/JXAPIConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pigeon-API/src/main/java/io/github/pigeonmuyz/pigeonapi/controller/JxapiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Pigeon-API/src/main/java/io/github/pigeonmuyz/pigeonapi/controller/ApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/config/DataConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/config/DataConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/config/OpenFeignConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/config/OpenFeignConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/handler/JX3APIHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/handler/JX3APIHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/handler/WeChatHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Pigeon-WXBot/src/main/java/io/github/pigeonmuyz/pigeonwxbot/handler/WeChatHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,6 +72,7 @@
     &quot;Maven.Pigeon-WXBOT [compile].executor&quot;: &quot;Run&quot;,
     &quot;Maven.Pigeon-WXBot [compile].executor&quot;: &quot;Run&quot;,
     &quot;Maven.Pigeon-WXBot [package].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Pigeon-WXBot [validate].executor&quot;: &quot;Run&quot;,
     &quot;Maven.PigeonServer [org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile].executor&quot;: &quot;Run&quot;,
     &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
     &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
@@ -74,7 +84,7 @@
     &quot;Spring Boot.PigeonApiApplication.executor&quot;: &quot;Run&quot;,
     &quot;Spring Boot.PigeonGatewayApplication.executor&quot;: &quot;Run&quot;,
     &quot;Spring Boot.PigeonRegistryApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.PigeonWxBotApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.PigeonWxBotApplication.executor&quot;: &quot;Debug&quot;,
     &quot;Spring Boot.PigeonWxbotApplication.executor&quot;: &quot;Run&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17 (2)&quot;,
@@ -115,7 +125,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.PigeonApiApplication">
+  <component name="RunManager" selected="Spring Boot.PigeonWxBotApplication">
     <configuration name="PigeonAiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="Pigeon-AI" />
@@ -208,7 +218,25 @@
       <workItem from="1725433356361" duration="19000" />
       <workItem from="1725801858147" duration="940000" />
       <workItem from="1726191536229" duration="4144000" />
-      <workItem from="1726715384220" duration="8380000" />
+      <workItem from="1726715384220" duration="9189000" />
+      <workItem from="1726881879339" duration="1583000" />
+      <workItem from="1727310627725" duration="2830000" />
+      <workItem from="1727503338884" duration="1881000" />
+      <workItem from="1727573811993" duration="275000" />
+      <workItem from="1727604302439" duration="62000" />
+      <workItem from="1727658822498" duration="5788000" />
+      <workItem from="1727722268395" duration="15000" />
+      <workItem from="1728351423888" duration="4897000" />
+      <workItem from="1728356646422" duration="377000" />
+      <workItem from="1728357149711" duration="155000" />
+      <workItem from="1728434860229" duration="6774000" />
+      <workItem from="1728444183490" duration="263000" />
+      <workItem from="1728444628146" duration="300000" />
+      <workItem from="1728457420283" duration="6010000" />
+      <workItem from="1728522118603" duration="4549000" />
+      <workItem from="1728615346590" duration="640000" />
+      <workItem from="1728952308389" duration="1022000" />
+      <workItem from="1728953671797" duration="396000" />
     </task>
     <task id="LOCAL-00001" summary="首次提交">
       <option name="closed" value="true" />
@@ -234,7 +262,23 @@
       <option name="project" value="LOCAL" />
       <updated>1723197523110</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="绑定终于做完了！！！">
+      <option name="closed" value="true" />
+      <created>1726729180280</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1726729180280</updated>
+    </task>
+    <task id="LOCAL-00005" summary="增加处理机制">
+      <option name="closed" value="true" />
+      <created>1727509338446</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1727509338446</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -255,6 +299,8 @@
     <MESSAGE value="首次提交" />
     <MESSAGE value="功能性修改" />
     <MESSAGE value="协议规定以及README文件补全" />
-    <option name="LAST_COMMIT_MESSAGE" value="协议规定以及README文件补全" />
+    <MESSAGE value="绑定终于做完了！！！" />
+    <MESSAGE value="增加处理机制" />
+    <option name="LAST_COMMIT_MESSAGE" value="增加处理机制" />
   </component>
 </project>
